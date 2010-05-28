@@ -4,6 +4,7 @@ Simple robust cookie library
 
 ##Exports
 
+
 ###CookieAccessInfo(domain,path,secure,script)
     class to determine matching qualities of a cookie
 #####Properties
@@ -11,7 +12,9 @@ Simple robust cookie library
 * path - path to match
 * secure - access is secure (ssl)
 * script - access if from a script
-### Cookie(cookiestr_or_cookie)
+
+
+###Cookie(cookiestr_or_cookie)
     turns input into a Cookie (singleton if given a Cookie)
 #####Properties
 * domain - domain to match
@@ -25,7 +28,9 @@ Simple robust cookie library
 * parse(cookiestr) - parses the string onto this cookie or a new one if called directly
 * matches(access_info) - returns true if the access_info allows retrieval of this cookie
 * collidesWith(cookie) - returns true if the cookies cannot exist in the same space (domain and path match)
-### CookieJar()
+
+
+###CookieJar()
     class to hold numerous cookies from multiple domains correctly
 #####Methods
 * setCookie(cookie) - add a cookie to the jar
