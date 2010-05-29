@@ -1,4 +1,4 @@
-var sys=require("sys");
+var sys=require("sys")
 exports.CookieAccessInfo=CookieAccessInfo=function(domain,path,secure,script) {
 	var $this=(function(){return this;})()===this
 		?Object.create(CookieAccessInfo.prototype)
@@ -54,23 +54,24 @@ Cookie.prototype.toValueString = function() {
 	return this.name+"="+this.value;
 }
 
+var cookie_str_splitter=/[:](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g
 Cookie.prototype.parse = function(str) {
 	var $this=(function(){return this;})()===this
 		?Object.create(Cookie.prototype)
 		:this
-	, parts=str.split(";")
-	, pair=parts[0].split("=")
-	, key=pair[0]
-	, value=pair[1];
-
+	var parts=str.split(";")
+	, pair=parts[0].match(/([^=]+)=((?:.|\n)*)/)
+	, key=pair[1]
+	, value=pair[2];
+	//sys.puts("PARSING:"+pair)
 	$this.name = key;
 	$this.value = value;
 
 	for(var i=1;i<parts.length;i++) {
-		pair=parts[i].split("=");
-		key=pair[0].trim().toLowerCase();
-		value=pair[1];
-
+		pair=parts[i].match(/([^=]+)=((?:.|\n)*)/)
+		, key=pair[1].trim().toLowerCase()
+		, value=pair[2];
+		//sys.puts("PARSING ATTR:'"+(key)+"'")
 		switch(key) {
 			case "httponly":
 				$this.noscript = true;
@@ -109,21 +110,29 @@ Cookie.prototype.matches = function(access_info) {
 }
 
 Cookie.prototype.collidesWith = function(access_info) {
-	if(!this.path || !access_info.path || access_info.path.indexOf(this.path) !== 0 || !this.domain || !access_info.domain) {
+	//sys.puts("COMPARING:",JSON.stringify(this),JSON.stringify(access_info))
+	if((this.path && !access_info.path) || (this.domain && !access_info.domain)) {
+		//sys.puts("A|")
 		return false
 	}
+	if(this.path && access_info.path.indexOf(this.path) !== 0) {
+		//sys.puts("B|")
+		return false;
+	}
 	if (this.domain===access_info.domain) {
+		//sys.puts("C|")
 		return true;
 	}
-	else if(this.domain.charAt(0)===".")
+	else if(this.domain && this.domain.charAt(0)===".")
 	{
 		var wildcard=access_info.domain.indexOf(this.domain.slice(1))
 		//sys.puts([wildcard,access_info.domain.length-this.domain.length+1,access_info.domain,])
 		if(wildcard===-1 || wildcard!==access_info.domain.length-this.domain.length+1) {
+		//sys.puts("D|")
 			return false;
 		}
 	}
-	else {
+	else if(this.domain){
 		return false
 	}
 	return true;
@@ -140,6 +149,7 @@ exports.CookieJar=CookieJar=function() {
 		cookie = Cookie(cookie);
 		//Delete the cookie if the set is past the current time
 		var remove = cookie.expiration_date <= Date.now();
+		//sys.puts("remove: "+JSON.stringify(cookie)+" : "+remove)
 		if(cookie.name in cookies) {
 			var cookies_list = cookies[cookie.name];
 			for(var i=0;i<cookies_list.length;i++) {
@@ -153,7 +163,7 @@ exports.CookieJar=CookieJar=function() {
 						return false;
 					}
 					else {
-						return cookie_list[i]=cookie;
+						return cookies_list[i]=cookie;
 					}
 				}
 			}
@@ -174,7 +184,7 @@ exports.CookieJar=CookieJar=function() {
 	$this.setCookies = function(cookies) {
 		cookies=Array.isArray(cookies)
 			?cookies
-			:cookies.split(":");
+			:cookies.split(cookie_str_splitter);
 		var successful=[]
 		for(var i=0;i<cookies.length;i++) {
 			var cookie = Cookie(cookies[i]);
