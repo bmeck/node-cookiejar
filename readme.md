@@ -1,4 +1,4 @@
-#Cookie
+#CookieJar
 
 Simple robust cookie library
 
@@ -7,21 +7,24 @@ Simple robust cookie library
 
 ###CookieAccessInfo(domain,path,secure,script)
     class to determine matching qualities of a cookie
+
 #####Properties
 * domain - domain to match
 * path - path to match
-* secure - access is secure (ssl)
-* script - access if from a script
+* secure - access is secure (ssl generally)
+* script - access is from a script
 
 
 ###Cookie(cookiestr_or_cookie)
     turns input into a Cookie (singleton if given a Cookie)
+
 #####Properties
-* domain - domain to match
-* path - base path to match
+* domain - domain to match (on a cookie a '.' at the start means a wildcard matching anything ending in the rest)
+* path - base path to match (matches any path starting with this '/' is root)
 * noscript - if it should be kept from scripts
-* secure - should it only be transmitted over secure
+* secure - should it only be transmitted over secure means
 * expiration_date - number of millis since 1970 at which this should be removed
+
 #####Methods
 * toString() - the __set-cookie:__ string for this cookie
 * toValueString() - the __cookie:__ string for this cookie
@@ -32,6 +35,7 @@ Simple robust cookie library
 
 ###CookieJar()
     class to hold numerous cookies from multiple domains correctly
+
 #####Methods
 * setCookie(cookie) - add a cookie to the jar
 * setCookies(cookiestr_or_list) - add a large number of cookies to the jar
