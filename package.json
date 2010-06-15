@@ -1,0 +1,6 @@
+{ "name" : "cookiejar"
+, "version" : "1.0.3"
+, "author": "bradleymeck"
+, "main": "cookiejar.js"
+, "description" : "simple persistent cookiejar system, with Connect support (including sessions)"
+}

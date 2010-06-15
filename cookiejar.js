@@ -226,3 +226,60 @@ exports.CookieJar=CookieJar=function() {
 
 	return $this;
 }
+
+//For Connect
+exports.handle=function(req,res,next) {
+	if(!req.cookies) {
+		var jar = CookieJar()
+		jar.setCookies(req.headers["cookie"])
+		var cookies = jar.getCookies()
+		, result = {}
+		for(var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i]
+			cookies[i] = cookie
+			cookies[cookie.name] = cookie
+		}
+		req.cookies = cookies
+	}
+	next()
+}
+
+var SessionJar = {
+	//sessionid : {
+	//	ttl
+	//	ip
+	//	objs
+	//}
+}
+exports.session={
+	setup:function() {sys.puts(sys.inspect(arguments))},
+	handle:function(req,res,next) {
+		if(!req.cookies) {
+			exports.handle(req,res,function(){})
+		}
+		var sessionid=req.cookies["_session"]
+		var session = sessionid
+		  ? SessionJar[sessionid]
+		  : null
+		if (ttl < new Date() || !session) {
+			delete SessionJar[sessionid]
+			//create new session
+			sessionid = Math.random()
+			while(SessionJar[sessionid]) {
+				sessionid = Math.random()
+			}
+			session = SessionJar[sessionid] = {
+				//lets be reasonable
+				, ip: req.remoteAddress
+				, objs: {}
+			}
+		}
+		if(session.ip == req.remoteAddress) {
+			//5min ttl
+			session.ttl = new Date() + 1000*60*5
+			req.session = session.objs
+		}
+
+		next()
+	}
+}
