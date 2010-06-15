@@ -33,10 +33,11 @@ exports.Cookie=Cookie=function(cookiestr) {
 Cookie.prototype.toString = function() {
 	var str=[this.name+"="+this.value];
 	if(this.expiration_date !== Infinity) {
-		str.push("expires="+Date(this.expiration_date).toString());
+		str.push("expires="+(new Date(this.expiration_date)).toGMTString());
 	}
 	if(this.domain) {
-		str.push("domain="+this.domain);
+		//Doesnt work on localhost?
+		//str.push("domain="+this.domain);
 	}
 	if(this.path) {
 		str.push("path="+this.path);
@@ -47,7 +48,7 @@ Cookie.prototype.toString = function() {
 	if(this.noscript) {
 		str.push("httponly");
 	}
-	return str.join(";");
+	return str.join("; ");
 }
 
 Cookie.prototype.toValueString = function() {
@@ -229,10 +230,15 @@ exports.CookieJar=CookieJar=function() {
 
 //For Connect
 exports.handle=function(req,res,next) {
-	if(!req.cookies) {
+	//sys.puts("cookiejar")
+	if(!req.cookies && req.headers && req.headers.host) {
 		var jar = CookieJar()
-		jar.setCookies(req.headers["cookie"])
-		var cookies = jar.getCookies()
+		if(req.headers.cookie) jar.setCookies(
+			req.headers.cookie.split(/\s*;\s*/g).map(function(cookiestr){
+				return Cookie(cookiestr)
+			}
+		))
+		var cookies = jar.getCookies(CookieAccessInfo(req.headers.host))
 		, result = {}
 		for(var i = 0; i < cookies.length; i++) {
 			var cookie = cookies[i]
@@ -240,6 +246,8 @@ exports.handle=function(req,res,next) {
 			cookies[cookie.name] = cookie
 		}
 		req.cookies = cookies
+		res.cookies = []
+		res.cookies.toString = function(){return this.join(":");}
 	}
 	next()
 }
@@ -252,16 +260,29 @@ var SessionJar = {
 	//}
 }
 exports.session={
-	setup:function() {sys.puts(sys.inspect(arguments))},
+	//setup:function() {sys.puts(sys.inspect(arguments))},
 	handle:function(req,res,next) {
+		//sys.puts("SESSION")
+		//sys.puts(sys.inspect(req))
 		if(!req.cookies) {
 			exports.handle(req,res,function(){})
 		}
-		var sessionid=req.cookies["_session"]
+		//sys.puts(sys.inspect(req))
+		if(!req.cookies) {
+			next()
+			return
+		}
+		//sys.puts(sys.inspect(req))
+		var cookie=req.cookies["_session"]
+		var sessionid=cookie
+		  ? cookie.value
+		  : false
 		var session = sessionid
 		  ? SessionJar[sessionid]
-		  : null
-		if (ttl < new Date() || !session) {
+		  : false
+		//sys.puts(sys.inspect(session))
+		if (!cookie || !session || session.ttl < new Date().getTime()) {
+			//sys.puts("NEW COOKIE")
 			delete SessionJar[sessionid]
 			//create new session
 			sessionid = Math.random()
@@ -273,13 +294,17 @@ exports.session={
 				ip: req.remoteAddress
 				, objs: {}
 			}
+			cookie = Cookie()
+			cookie.domain = '.'+req.headers.host
+			cookie.name = "_session"
+			cookie.value = sessionid
 		}
 		if(session.ip == req.remoteAddress) {
 			//5min ttl
-			session.ttl = new Date() + 1000*60*5
+			cookie.expiration_date = session.ttl = new Date(new Date().getTime() + 1000*60*5).getTime()
 			req.session = session.objs
+			res.cookies.push(cookie)
 		}
-
 		next()
 	}
 }
