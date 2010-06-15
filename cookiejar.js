@@ -270,7 +270,7 @@ exports.session={
 			}
 			session = SessionJar[sessionid] = {
 				//lets be reasonable
-				, ip: req.remoteAddress
+				ip: req.remoteAddress
 				, objs: {}
 			}
 		}
