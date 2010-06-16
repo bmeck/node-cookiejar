@@ -264,7 +264,7 @@ var SessionJar = {
 exports.session=function(opts){
 	opts = opts || {}
 	var cookie_name = opts.cookie || "_session"
-	, ttl = opts.ttl || 5*60*1000
+	, ttl = opts.ttl || false
 	, hash = opts.hash || function() {return Math.random()}
 	, noscript = !!!opts.scriptable
 	//setup:function() {sys.puts(sys.inspect(arguments))},
@@ -310,7 +310,7 @@ exports.session=function(opts){
 		}
 		//match the ip
 		if(session.ip == req.remoteAddress) {
-			cookie.expiration_date = session.ttl = new Date(new Date().getTime() + ttl).getTime()
+			cookie.expiration_date = session.ttl = ttl?new Date(new Date().getTime() + ttl).getTime():Infinity
 			req.session = session.objs
 			res.cookies.push(cookie)
 		}
