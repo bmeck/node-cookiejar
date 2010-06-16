@@ -22,7 +22,7 @@ exports.Cookie=Cookie=function(cookiestr) {
 	$this.expiration_date = Infinity;
 	$this.path = "/";
 	$this.domain = null;
-	$this.secure = false;
+	$this.secure = false; //how to define?
 	$this.noscript = false; //httponly
 	if(cookiestr) {
 		$this.parse(cookiestr)
@@ -247,7 +247,9 @@ exports.handle=function(req,res,next) {
 		}
 		req.cookies = cookies
 		res.cookies = []
-		res.cookies.toString = function(){return this.join(":");}
+		res.cookies.toString = function(){return this.map(function(cookie_or_str){
+			return Cookie(cookie_or_str)
+		}).join(":");}
 	}
 	next()
 }
@@ -259,8 +261,14 @@ var SessionJar = {
 	//	objs
 	//}
 }
-exports.session={
+exports.session=function(opts){
+	opts = opts || {}
+	var cookie_name = opts.cookie || "_session"
+	, ttl = opts.ttl || 5*60*1000
+	, hash = opts.hash || function() {return Math.random()}
+	, noscript = !!!opts.scriptable
 	//setup:function() {sys.puts(sys.inspect(arguments))},
+	return {
 	handle:function(req,res,next) {
 		//sys.puts("SESSION")
 		//sys.puts(sys.inspect(req))
@@ -273,7 +281,7 @@ exports.session={
 			return
 		}
 		//sys.puts(sys.inspect(req))
-		var cookie=req.cookies["_session"]
+		var cookie=req.cookies[cookie_name]
 		var sessionid=cookie
 		  ? cookie.value
 		  : false
@@ -285,9 +293,9 @@ exports.session={
 			//sys.puts("NEW COOKIE")
 			delete SessionJar[sessionid]
 			//create new session
-			sessionid = Math.random()
+			sessionid = hash()
 			while(SessionJar[sessionid]) {
-				sessionid = Math.random()
+				sessionid = hash()
 			}
 			session = SessionJar[sessionid] = {
 				//lets be reasonable
@@ -296,15 +304,16 @@ exports.session={
 			}
 			cookie = Cookie()
 			cookie.domain = '.'+req.headers.host
-			cookie.name = "_session"
+			cookie.name = cookie_name
 			cookie.value = sessionid
+			cookie.noscript = noscript
 		}
+		//match the ip
 		if(session.ip == req.remoteAddress) {
-			//5min ttl
-			cookie.expiration_date = session.ttl = new Date(new Date().getTime() + 1000*60*5).getTime()
+			cookie.expiration_date = session.ttl = new Date(new Date().getTime() + ttl).getTime()
 			req.session = session.objs
 			res.cookies.push(cookie)
 		}
 		next()
-	}
+	}}
 }
