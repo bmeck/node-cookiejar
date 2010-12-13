@@ -197,6 +197,7 @@ exports.CookieJar=CookieJar=function CookieJar() {
     			}
     		}
     		matches.toString=function toString(){return matches.join(":");}
+            matches.toValueString=function() {return matches.map(function(c){return c.toValueString();}).join(';');}
     		return matches;
     	}
     

@@ -12,6 +12,9 @@ var cookies=test_jar.getCookies(CookieAccessInfo("test.com","/"))
 console.log(
 	cookies.length==2
 	|| "Expires on setCookies fail"+cookies.length+"\n"+cookies.toString());
+console.log(
+    cookies.toValueString() == 'a=1;b=2'
+    || "Cannot get value string of multiple cookies");
 cookies=test_jar.getCookies(CookieAccessInfo("www.test.com","/"))
 console.log(
 	cookies.length==1
