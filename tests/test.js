@@ -23,3 +23,6 @@ console.log(
 	|| "Delete cookie fail"+cookies.length+"\n"+cookies.toString());
     
 console.log(String(test_jar.getCookies(CookieAccessInfo("test.com","/"))))
+
+cookie=Cookie("a=1;domain=test.com;path=/;HttpOnly");
+console.log(cookie.noscript || "HttpOnly flag parsing failed\n"+cookie.toString());

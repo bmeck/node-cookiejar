@@ -68,7 +68,7 @@ Cookie.prototype.parse = function parse(str) {
     	this.value = value;
     
     	for(var i=1;i<parts.length;i++) {
-    		pair=parts[i].match(/([^=]+)=((?:.|\n)*)/)
+    		pair=parts[i].match(/([^=]+)(?:=((?:.|\n)*))?/)
     		, key=pair[1].trim().toLowerCase()
     		, value=pair[2];
     		switch(key) {
