@@ -207,7 +207,7 @@ exports.CookieJar=CookieJar=function CookieJar() {
 }
 
 
-//returns list of cookies that were set correctly
+//returns list of cookies that were set correctly. Cookies that are expired and removed are not returned.
 CookieJar.prototype.setCookies = function setCookies(cookies) {
 	cookies=Array.isArray(cookies)
 		?cookies
