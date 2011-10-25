@@ -1,4 +1,4 @@
-exports.CookieAccessInfo=CookieAccessInfo=function CookieAccessInfo(domain,path,secure,script) {
+var CookieAccessInfo=exports.CookieAccessInfo=function CookieAccessInfo(domain,path,secure,script) {
     if(this instanceof CookieAccessInfo) {
     	this.domain=domain||undefined;
     	this.path=path||"/";
@@ -11,7 +11,7 @@ exports.CookieAccessInfo=CookieAccessInfo=function CookieAccessInfo(domain,path,
     }
 }
 
-exports.Cookie=Cookie=function Cookie(cookiestr) {
+var Cookie=exports.Cookie=function Cookie(cookiestr) {
 	if(cookiestr instanceof Cookie) {
 		return cookiestr;
 	}
@@ -133,7 +133,7 @@ Cookie.prototype.collidesWith = function collidesWith(access_info) {
 	return true;
 }
 
-exports.CookieJar=CookieJar=function CookieJar() {
+var CookieJar=exports.CookieJar=function CookieJar() {
 	if(this instanceof CookieJar) {
     	var cookies = {} //name: [Cookie]
     
