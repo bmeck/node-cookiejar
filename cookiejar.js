@@ -25,7 +25,9 @@ var Cookie=exports.Cookie=function Cookie(cookiestr) {
         	this.secure = false; //how to define?
         	this.noscript = false; //httponly
         	if(cookiestr) {
-        		this.parse(cookiestr)
+            try {
+              this.parse(cookiestr)
+            } catch(e) {}
         	}
         	return this;
         }
