@@ -174,6 +174,7 @@ var CookieJar=exports.CookieJar=function CookieJar() {
     	//returns a cookie
     	this.getCookie = function getCookie(cookie_name,access_info) {
     		var cookies_list = cookies[cookie_name];
+        if (!cookies_list) return;
     		for(var i=0;i<cookies_list.length;i++) {
     			var cookie = cookies_list[i];
     			if(cookie.expiration_date <= Date.now()) {
