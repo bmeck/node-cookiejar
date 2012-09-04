@@ -60,7 +60,7 @@ Cookie.prototype.toValueString = function toValueString() {
 var cookie_str_splitter=/[:](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g
 Cookie.prototype.parse = function parse(str) {
 	if(this instanceof Cookie) {
-    	var parts=str.split(";")
+    	var parts=str.split(";").filter(function(value){return !!value})
     	, pair=parts[0].match(/([^=]+)=((?:.|\n)*)/)
     	, key=pair[1]
     	, value=pair[2];
