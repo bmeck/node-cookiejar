@@ -3,4 +3,6 @@
 , "author": "bradleymeck"
 , "main": "cookiejar.js"
 , "description" : "simple persistent cookiejar system"
+, "license": "MIT"
+, "repository": {"type": "git", "url": "https://github.com/bmeck/node-cookiejar.git"}
 }
