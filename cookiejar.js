@@ -122,6 +122,9 @@ Cookie.prototype.collidesWith = function collidesWith(access_info) {
 	if (this.domain===access_info.domain) {
 		return true;
 	}
+	else if (this.domain && access_info.domain.slice(-this.domain.length) === this.domain) {
+		return true;
+	}
 	else if(this.domain && this.domain.charAt(0)===".")
 	{
 		var wildcard=access_info.domain.indexOf(this.domain.slice(1))
