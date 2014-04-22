@@ -48,3 +48,11 @@ test_jar.setCookies([
 var cookies=test_jar.getCookies(CookieAccessInfo("test.com","/"))
 assert.equal(cookies.length, 2);
 assert.equal(cookies[0].value, 2);
+
+// Test Ignore Trailing Semicolons (Github Issue #6)
+var cookie = new Cookie("a=1;domain=.test.com;path=/;;;;");
+assert.equal(cookie.name, "a");
+assert.equal(cookie.value, "1");
+assert.equal(cookie.domain, ".test.com");
+assert.equal(cookie.path, "/");
+assert.deepEqual(cookie, new Cookie("a=1;domain=.test.com;path=/"));
