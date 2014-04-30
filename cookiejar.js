@@ -13,7 +13,6 @@ var CookieAccessInfo = function CookieAccessInfo(domain,path,secure,script) {
 }
 exports.CookieAccessInfo = CookieAccessInfo;
 
-
 var Cookie = function Cookie(cookiestr) {
 	if(cookiestr instanceof Cookie) {
 		return cookiestr;
