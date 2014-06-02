@@ -29,7 +29,9 @@ Simple robust cookie library
 * String name - name of the cookie
 * String value - string associated with the cookie
 * String domain - domain to match (on a cookie a '.' at the start means a wildcard matching anything ending in the rest)
+* Boolean explicit_domain - if the domain was explicitly set via the cookie string
 * String path - base path to match (matches any path starting with this '/' is root)
+* Boolean explicit_path - if the path was explicitly set via the cookie string
 * Boolean noscript - if it should be kept from scripts
 * Boolean secure - should it only be transmitted over secure means
 * Number expiration_date - number of millis since 1970 at which this should be removed
