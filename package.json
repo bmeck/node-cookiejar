@@ -7,6 +7,9 @@
   "main": "cookiejar.js",
   "description": "simple persistent cookiejar system",
   "license": "MIT",
+  "scripts": {
+    "prepublish": "git tag $npm_package_version && git push origin --tags"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bmeck/node-cookiejar.git"
