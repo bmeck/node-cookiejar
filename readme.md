@@ -22,7 +22,7 @@ Simple robust cookie library
     the `request_domain` argument is used to default the domain if it is not explicit in the cookie string 
     the `request_path` argument is used to set the path if it is not explicit in a cookie String.
 
-    Explicit domains/paths will cascade, implied domains/paths must *exactly* match (see http://en.wikipedia.org/wiki/HTTP_cookie#Domain_and_Pat)
+    explicit domains/paths will cascade, implied domains/paths must *exactly* match (see http://en.wikipedia.org/wiki/HTTP_cookie#Domain_and_Pat)
 
 #####Properties
 

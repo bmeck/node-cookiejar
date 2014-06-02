@@ -8,7 +8,7 @@
   "description": "simple persistent cookiejar system",
   "license": "MIT",
   "scripts": {
-    "prepublish": "jshint cookiejar.js && git tag $npm_package_version && git push origin --tags",
+    "prepublish": "jshint cookiejar.js && git tag $npm_package_version && git push origin master && git push origin --tags",
     "test": "tests/test.js"
   },
   "repository": {
