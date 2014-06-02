@@ -1,4 +1,5 @@
-var CookieAccessInfo=exports.CookieAccessInfo=function CookieAccessInfo(domain,path,secure,script) {
+
+var CookieAccessInfo = function CookieAccessInfo(domain,path,secure,script) {
     if(this instanceof CookieAccessInfo) {
     	this.domain=domain||undefined;
     	this.path=path||"/";
@@ -10,8 +11,9 @@ var CookieAccessInfo=exports.CookieAccessInfo=function CookieAccessInfo(domain,p
         return new CookieAccessInfo(domain,path,secure,script)    
     }
 }
+exports.CookieAccessInfo = CookieAccessInfo;
 
-var Cookie=exports.Cookie=function Cookie(cookiestr) {
+var Cookie = function Cookie(cookiestr) {
 	if(cookiestr instanceof Cookie) {
 		return cookiestr;
 	}
@@ -25,15 +27,14 @@ var Cookie=exports.Cookie=function Cookie(cookiestr) {
         	this.secure = false; //how to define?
         	this.noscript = false; //httponly
         	if(cookiestr) {
-            try {
-              this.parse(cookiestr)
-            } catch(e) {}
+        		this.parse(cookiestr)
         	}
         	return this;
         }
         return new Cookie(cookiestr)
     }
 }
+exports.Cookie = Cookie;
 
 Cookie.prototype.toString = function toString() {
 	var str=[this.name+"="+this.value];
@@ -62,7 +63,7 @@ Cookie.prototype.toValueString = function toValueString() {
 var cookie_str_splitter=/[:](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g
 Cookie.prototype.parse = function parse(str) {
 	if(this instanceof Cookie) {
-    	var parts=str.split(";").filter(function(value){return !!value})
+    	var parts=str.split(";")
     	, pair=parts[0].match(/([^=]+)=((?:.|\n)*)/)
     	, key=pair[1]
     	, value=pair[2];
@@ -135,7 +136,7 @@ Cookie.prototype.collidesWith = function collidesWith(access_info) {
 	return true;
 }
 
-var CookieJar=exports.CookieJar=function CookieJar() {
+var CookieJar = function CookieJar() {
 	if(this instanceof CookieJar) {
     	var cookies = {} //name: [Cookie]
     
@@ -176,7 +177,6 @@ var CookieJar=exports.CookieJar=function CookieJar() {
     	//returns a cookie
     	this.getCookie = function getCookie(cookie_name,access_info) {
     		var cookies_list = cookies[cookie_name];
-        if (!cookies_list) return;
     		for(var i=0;i<cookies_list.length;i++) {
     			var cookie = cookies_list[i];
     			if(cookie.expiration_date <= Date.now()) {
@@ -208,9 +208,9 @@ var CookieJar=exports.CookieJar=function CookieJar() {
 	}
     return new CookieJar()
 }
+exports.CookieJar = CookieJar;
 
-
-//returns list of cookies that were set correctly. Cookies that are expired and removed are not returned.
+//returns list of cookies that were set correctly
 CookieJar.prototype.setCookies = function setCookies(cookies) {
 	cookies=Array.isArray(cookies)
 		?cookies
