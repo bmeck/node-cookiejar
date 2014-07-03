@@ -137,7 +137,7 @@
                return false;
            }
         }
-        var access_domain = access_info.domain.replace(/^[\.]/,'');
+        var access_domain = access_info.domain && access_info.domain.replace(/^[\.]/,'');
         var cookie_domain = this.domain && this.domain.replace(/^[\.]/,'');
         if (cookie_domain === access_domain) {
             return true;
