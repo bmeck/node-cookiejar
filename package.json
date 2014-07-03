@@ -1,12 +1,15 @@
 {
   "name": "cookiejar",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "bradleymeck"
   },
   "main": "cookiejar.js",
   "description": "simple persistent cookiejar system",
   "license": "MIT",
+  "jshintConfig": {
+    "node": true
+  },
   "scripts": {
     "prepublish": "jshint cookiejar.js && git tag $npm_package_version && git push origin master && git push origin --tags",
     "test": "tests/test.js"
