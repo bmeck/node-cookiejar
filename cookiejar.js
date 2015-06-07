@@ -33,7 +33,7 @@
             }
             return this;
         }
-        return new Cookie(cookiestr);
+        return new Cookie(cookiestr, request_domain, request_path);
     }
     exports.Cookie = Cookie;
 
@@ -248,7 +248,9 @@
         var successful = [],
             i,
             cookie;
-        cookies = cookies.map(Cookie);
+        cookies = cookies.map(function(item){
+            return Cookie(item, request_domain, request_path);
+        });
         for (i = 0; i < cookies.length; i += 1) {
             cookie = cookies[i];
             if (this.setCookie(cookie, request_domain, request_path)) {
