@@ -248,7 +248,7 @@
             i,
             cookie;
         cookies = cookies.map(function(item){
-            return Cookie(item, request_domain, request_path);
+            return new Cookie(item, request_domain, request_path);
         });
         for (i = 0; i < cookies.length; i += 1) {
             cookie = cookies[i];
