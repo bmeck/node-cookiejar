@@ -70,8 +70,8 @@ var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/"));
 assert.equal(cookie.name, "sub");
 assert.equal(cookie.domain, "test.com");
 
-test_jar.setCookie(new Cookie("sub=4;", "test.com", "/accounts"));
-var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/"));
+test_jar.setCookie(new Cookie("sub=4;path=/accounts", "test.com", "/accounts"));
+var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/foo"));
 assert.equal(cookie, undefined);
 
 var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/accounts"));

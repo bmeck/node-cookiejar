@@ -133,10 +133,8 @@
         if (this.path && access_info.path.indexOf(this.path) !== 0) {
             return false;
         }
-        if (!this.explicit_path) {
-           if (this.path !== access_info.path) {
-               return false;
-           }
+        if (this.explicit_path && this.path !== access_info.path) {
+           return false;
         }
         var access_domain = access_info.domain && access_info.domain.replace(/^[\.]/,'');
         var cookie_domain = this.domain && this.domain.replace(/^[\.]/,'');
@@ -209,6 +207,7 @@
                         }
                         continue;
                     }
+
                     if (cookie.matches(access_info)) {
                         return cookie;
                     }
