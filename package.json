@@ -1,6 +1,6 @@
 {
   "name": "cookiejar",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": {
     "name": "bradleymeck"
   },
@@ -12,10 +12,13 @@
   },
   "scripts": {
     "prepublish": "jshint cookiejar.js && git tag $npm_package_version && git push origin master && git push origin --tags",
-    "test": "tests/test.js"
+    "test": "node tests/test.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bmeck/node-cookiejar.git"
+  },
+  "dependencies": {
+    "jshint": "^2.8.0"
   }
 }
