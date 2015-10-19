@@ -133,7 +133,7 @@
         if (this.path && access_info.path.indexOf(this.path) !== 0) {
             return false;
         }
-        if (this.explicit_path && this.path !== access_info.path) {
+        if (this.explicit_path && access_info.path.indexOf( this.path ) !== 0) {
            return false;
         }
         var access_domain = access_info.domain && access_info.domain.replace(/^[\.]/,'');
