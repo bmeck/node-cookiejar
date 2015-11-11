@@ -11,14 +11,13 @@
     "node": true
   },
   "scripts": {
-    "prepublish": "jshint cookiejar.js && git tag $npm_package_version && git push origin master && git push origin --tags",
     "test": "node tests/test.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/bmeck/node-cookiejar.git"
   },
-  "dependencies": {
+  "devDependencies": {
     "jshint": "^2.8.0"
   }
 }
