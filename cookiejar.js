@@ -12,6 +12,7 @@
         }
         return new CookieAccessInfo(domain, path, secure, script);
     }
+    CookieAccessInfo.All = Object.freeze(Object.create(null));
     exports.CookieAccessInfo = CookieAccessInfo;
 
     function Cookie(cookiestr, request_domain, request_path) {
@@ -118,6 +119,9 @@
     };
 
     Cookie.prototype.matches = function matches(access_info) {
+        if (access_info === CookieAccessInfo.All) {
+          return true;
+        }
         if (this.noscript && access_info.script ||
                 this.secure && !access_info.secure ||
                 !this.collidesWith(access_info)) {

@@ -80,3 +80,8 @@ assert.equal(cookie.path, "/accounts");
 test_jar.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
 var cookies = test_jar.getCookies(CookieAccessInfo("test.com"));
 assert.equal(cookies.length, 3);
+
+test_jar.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
+var cookie = test_jar.getCookie('sub', CookieAccessInfo.All);
+assert(cookie);
+assert.equal(cookie.name, 'sub');
