@@ -165,37 +165,43 @@
 
             this.setCookie = function setCookie(cookie, request_domain, request_path) {
                 var remove, i;
+                //Delete the cookie if the set is past the current time
+                cookie = new Cookie(cookie, request_domain, request_path);
+                remove = cookie.expiration_date <= Date.now();
+                if (cookies[cookie.name] !== undefined  && !remove) {
+                    cookies[cookie.name] = [cookie];
+                    return cookies[cookie.name]
+                }
+                return false
+                // return false # rien a modifié le cookie n'existe pas  
+            };
+
+            // add cookie
+            this.addCookie = function addCookie(cookie, request_domain, request_path) {
+                var remove, i;
                 cookie = new Cookie(cookie, request_domain, request_path);
                 //Delete the cookie if the set is past the current time
                 remove = cookie.expiration_date <= Date.now();
+                if (remove){
+                    return false
+                }
                 if (cookies[cookie.name] !== undefined) {
                     cookies_list = cookies[cookie.name];
                     for (i = 0; i < cookies_list.length; i += 1) {
                         collidable_cookie = cookies_list[i];
                         if (collidable_cookie.collidesWith(cookie)) {
-                            if (remove) {
-                                cookies_list.splice(i, 1);
-                                if (cookies_list.length === 0) {
-                                    delete cookies[cookie.name];
-                                }
-                                return false;
-                            }
-                            cookies_list[i] = cookie;
+                            cookies_list.splice(i, 1);
+                            cookies_list.push(cookie);
                             return cookie;
                         }
-                    }
-                    if (remove) {
-                        return false;
                     }
                     cookies_list.push(cookie);
                     return cookie;
                 }
-                if (remove) {
-                    return false;
-                }
                 cookies[cookie.name] = [cookie];
-                return cookies[cookie.name];
+                return cookie
             };
+            
             //returns a cookie
             this.getCookie = function getCookie(cookie_name, access_info) {
                 var cookie, i;
@@ -243,7 +249,25 @@
     }
     exports.CookieJar = CookieJar;
 
-    //returns list of cookies that were set correctly. Cookies that are expired and removed are not returned.
+    CookieJar.prototype.addCookies = function addCookies(cookies, request_domain, request_path) {
+        cookies = Array.isArray(cookies) ?
+                cookies :
+                cookies.split(cookie_str_splitter);
+        var successful = [],
+            i,
+            cookie;
+        cookies = cookies.map(function(item){
+            return new Cookie(item, request_domain, request_path);
+        });
+        for (i = 0; i < cookies.length; i += 1) {
+            cookie = cookies[i];
+            if (this.addCookie(cookie, request_domain, request_path)) {
+                successful.push(cookie);
+            }
+        }
+        return successful;
+    };
+
     CookieJar.prototype.setCookies = function setCookies(cookies, request_domain, request_path) {
         cookies = Array.isArray(cookies) ?
                 cookies :

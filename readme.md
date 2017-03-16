@@ -51,7 +51,9 @@ Simple robust cookie library
 
 #####Methods
 
-* Cookie setCookie(cookie, request_domain, request_path) - add a cookie to the jar
-* Cookie[] setCookies(cookiestr_or_list, request_domain, request_path) - add a large number of cookies to the jar
+* Cookie setCookie(cookie, request_domain, request_path) -if the cookie is expired or indefinite, setcoookie deletes it; else setcookie add it instead of the old one and return the new one added
+* Cookie[] setCookies(cookiestr_or_list, request_domain, request_path) - modify a large number of cookies to the jar
+* Cookie addCookie(cookie, request_domain, request_path) -if the cookie is  expired addcookie delete it, else if it is indefinite addcookie add it and return the new cookie , else if it is definite addcookie Check for collision, if that is true addcookie add it instead of the old one and return the new one added, else addcookie add the new one beside the old one
+* Cookie[] addCookies(cookiestr_or_list, request_domain, request_path) - add a large number of cookies to the jar
 * Cookie getCookie(cookie_name,access_info) - get a cookie with the name and access_info matching
 * Cookie[] getCookies(access_info) - grab all cookies matching this access_info
