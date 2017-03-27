@@ -1,14 +1,14 @@
-#CookieJar
+# CookieJar
 
 Simple robust cookie library
 
-##Exports
+## Exports
 
-###CookieAccessInfo(domain,path,secure,script)
+### CookieAccessInfo(domain,path,secure,script)
 
     class to determine matching qualities of a cookie
 
-#####Properties
+##### Properties
 
 * String domain - domain to match
 * String path - path to match
@@ -16,7 +16,7 @@ Simple robust cookie library
 * Boolean script - access is from a script
 
 
-###Cookie(cookiestr_or_cookie, request_domain, request_path)
+### Cookie(cookiestr_or_cookie, request_domain, request_path)
 
     turns input into a Cookie (singleton if given a Cookie)
     the `request_domain` argument is used to default the domain if it is not explicit in the cookie string 
@@ -24,7 +24,7 @@ Simple robust cookie library
 
     explicit domains/paths will cascade, implied domains/paths must *exactly* match (see http://en.wikipedia.org/wiki/HTTP_cookie#Domain_and_Pat)
 
-#####Properties
+##### Properties
 
 * String name - name of the cookie
 * String value - string associated with the cookie
@@ -36,7 +36,7 @@ Simple robust cookie library
 * Boolean secure - should it only be transmitted over secure means
 * Number expiration_date - number of millis since 1970 at which this should be removed
 
-#####Methods
+##### Methods
 
 * String toString() - the __set-cookie:__ string for this cookie
 * String toValueString() - the __cookie:__ string for this cookie
@@ -45,13 +45,13 @@ Simple robust cookie library
 * Boolean collidesWith(cookie) - returns true if the cookies cannot exist in the same space (domain and path match)
 
 
-###CookieJar()
+### CookieJar()
 
     class to hold numerous cookies from multiple domains correctly
 
-#####Methods
+##### Methods
 
-* Cookie setCookie(cookie, request_domain, request_path) - add a cookie to the jar
-* Cookie[] setCookies(cookiestr_or_list, request_domain, request_path) - add a large number of cookies to the jar
+* Cookie setCookie(cookie, request_domain, request_path) - modify (or add if not already-existing) a cookie to the jar
+* Cookie[] setCookies(cookiestr_or_list, request_domain, request_path) - modify (or add if not already-existing) a large number of cookies to the jar
 * Cookie getCookie(cookie_name,access_info) - get a cookie with the name and access_info matching
 * Cookie[] getCookies(access_info) - grab all cookies matching this access_info
