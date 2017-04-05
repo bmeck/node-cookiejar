@@ -43,15 +43,21 @@ assert.equal(String(test_jar.getCookies(CookieAccessInfo("test.com","/"))), "a=1
 cookie=Cookie("a=1;domain=test.com;path=/;HttpOnly");
 assert.ok(cookie.noscript, "HttpOnly flag parsing failed\n" + cookie.toString());
 
-var test_jar = CookieJar();
-test_jar.setCookies([
-	"a=1;domain=.test.com;path=/"
-	, "a=1;domain=.test.com;path=/"
-	, "a=2;domain=.test.com;path=/"
-	, "b=3;domain=.test.com;path=/"]);
-var cookies=test_jar.getCookies(CookieAccessInfo("test.com","/"))
-assert.equal(cookies.length, 2);
-assert.equal(cookies[0].value, 2);
+var test_jar2 = CookieJar();
+test_jar2.setCookies([
+        "a=1;domain=.test.com;path=/"
+        , "a=1;domain=.test.com;path=/"
+        , "a=2;domain=.test.com;path=/"
+        , "b=3;domain=.test.com;path=/"]);
+var cookies2=test_jar2.getCookies(CookieAccessInfo("test.com","/"))
+assert.equal(cookies2.length, 2);
+assert.equal(cookies2[0].value, 2);
+
+// Test pure appending
+test_jar2.setCookie("d=4;domain=.test.com;path=/");
+cookies2=test_jar2.getCookies(CookieAccessInfo("test.com","/"))
+assert.equal(cookies2.length, 3);
+assert.equal(cookies2[2].value, 4);
 
 // Test Ignore Trailing Semicolons (Github Issue #6)
 var cookie = new Cookie("a=1;domain=.test.com;path=/;;;;");
@@ -62,26 +68,26 @@ assert.equal(cookie.path, "/");
 assert.deepEqual(cookie, new Cookie("a=1;domain=.test.com;path=/"));
 
 // Test request_path and request_domain
-test_jar.setCookie(new Cookie("sub=4;path=/", "test.com"));
-var cookie = test_jar.getCookie("sub", CookieAccessInfo("sub.test.com", "/"));
+test_jar2.setCookie(new Cookie("sub=4;path=/", "test.com"));
+var cookie = test_jar2.getCookie("sub", CookieAccessInfo("sub.test.com", "/"));
 assert.equal(cookie, undefined);
 
-var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/"));
+var cookie = test_jar2.getCookie("sub", CookieAccessInfo("test.com", "/"));
 assert.equal(cookie.name, "sub");
 assert.equal(cookie.domain, "test.com");
 
-test_jar.setCookie(new Cookie("sub=4;path=/accounts", "test.com", "/accounts"));
-var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/foo"));
+test_jar2.setCookie(new Cookie("sub=4;path=/accounts", "test.com", "/accounts"));
+var cookie = test_jar2.getCookie("sub", CookieAccessInfo("test.com", "/foo"));
 assert.equal(cookie, undefined);
 
-var cookie = test_jar.getCookie("sub", CookieAccessInfo("test.com", "/accounts"));
+var cookie = test_jar2.getCookie("sub", CookieAccessInfo("test.com", "/accounts"));
 assert.equal(cookie.path, "/accounts");
 
-test_jar.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
-var cookies = test_jar.getCookies(CookieAccessInfo("test.com"));
-assert.equal(cookies.length, 3);
+test_jar2.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
+var cookies = test_jar2.getCookies(CookieAccessInfo("test.com"));
+assert.equal(cookies.length, 4);
 
-test_jar.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
-var cookie = test_jar.getCookie('sub', CookieAccessInfo.All);
+test_jar2.setCookie(new Cookie("sub=5;path=/", "test.com", "/accounts"));
+var cookie = test_jar2.getCookie('sub', CookieAccessInfo.All);
 assert(cookie);
 assert.equal(cookie.name, 'sub');
