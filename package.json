@@ -19,6 +19,6 @@
     "url": "https://github.com/bmeck/node-cookiejar.git"
   },
   "devDependencies": {
-    "jshint": "^2.8.0"
+    "jshint": "^2.9.4"
   }
 }
