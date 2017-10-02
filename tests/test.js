@@ -26,8 +26,8 @@ assert.equal(cookie.domain, ".test.com");
 var test_jar = CookieJar();
 test_jar.setCookies(
  "a=1;domain=.test.com;path=/"
- +":b=2;domain=test.com;path=/"
- +":c=3;domain=test.com;path=/;expires=January 1, 1970");
+ +",b=2;domain=test.com;path=/"
+ +",c=3;domain=test.com;path=/;expires=January 1, 1970");
 var cookies=test_jar.getCookies(CookieAccessInfo("test.com","/"))
 assert.equal(cookies.length, 2, "Expires on setCookies fail\n" + cookies.toString());
 assert.equal(cookies.toValueString(), 'a=1;b=2', "Cannot get value string of multiple cookies");

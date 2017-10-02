@@ -62,7 +62,7 @@
         return this.name + "=" + this.value;
     };
 
-    var cookie_str_splitter = /[:](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g;
+    var cookie_str_splitter = /[,](?=\s*[a-zA-Z0-9_\-]+\s*[=])/g;
     Cookie.prototype.parse = function parse(str, request_domain, request_path) {
         if (this instanceof Cookie) {
             var parts = str.split(";").filter(function (value) {
