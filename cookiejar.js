@@ -226,7 +226,7 @@
                     }
                 }
                 matches.toString = function toString() {
-                    return matches.join(":");
+                    return matches.join(",");
                 };
                 matches.toValueString = function toValueString() {
                     return matches.map(function (c) {
