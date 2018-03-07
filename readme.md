@@ -1,5 +1,8 @@
 # CookieJar
 
+[![NPM version](http://img.shields.io/npm/v/cookiejar.svg)](https://www.npmjs.org/package/cookiejar)
+[![devDependency Status](https://david-dm.org/bmeck/node-cookiejar/dev-status.svg)](https://david-dm.org/bmeck/node-cookiejar?type=dev)
+
 Simple robust cookie library
 
 ## Exports
@@ -19,7 +22,7 @@ Simple robust cookie library
 ### Cookie(cookiestr_or_cookie, request_domain, request_path)
 
     turns input into a Cookie (singleton if given a Cookie)
-    the `request_domain` argument is used to default the domain if it is not explicit in the cookie string 
+    the `request_domain` argument is used to default the domain if it is not explicit in the cookie string
     the `request_path` argument is used to set the path if it is not explicit in a cookie String.
 
     explicit domains/paths will cascade, implied domains/paths must *exactly* match (see http://en.wikipedia.org/wiki/HTTP_cookie#Domain_and_Pat)
