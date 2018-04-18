@@ -67,11 +67,16 @@
         if (this instanceof Cookie) {
             var parts = str.split(";").filter(function (value) {
                     return !!value;
-                }),
-                pair = parts[0].match(/([^=]+)=([\s\S]*)/),
-                key = pair[1],
-                value = pair[2],
-                i;
+                });
+            var i;
+
+            var pair = parts[0].match(/([^=]+)=([\s\S]*)/);
+            if (!pair) return;
+
+            var key = pair[1];
+            var value = pair[2];
+            if (!key || !value) return;
+
             this.name = key;
             this.value = value;
 
