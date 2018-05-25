@@ -1,5 +1,8 @@
 # CookieJar
 
+[![NPM version](http://img.shields.io/npm/v/cookiejar.svg)](https://www.npmjs.org/package/cookiejar)
+[![devDependency Status](https://david-dm.org/bmeck/node-cookiejar/dev-status.svg)](https://david-dm.org/bmeck/node-cookiejar?type=dev)
+
 Simple robust cookie library
 
 ## Exports
