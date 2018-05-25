@@ -71,11 +71,17 @@
             var i;
 
             var pair = parts[0].match(/([^=]+)=([\s\S]*)/);
-            if (!pair) return;
+            if (!pair) {
+                console.warn(`Invalid cookie header encountered. Header: '${str}'`)
+                return;
+            }
 
             var key = pair[1];
             var value = pair[2];
-            if (!key || !value) return;
+            if (!key || !value) {
+                console.warn(`Unable to extract values from cookie header. Cookie: '${str}'`)
+                return;
+            }
 
             this.name = key;
             this.value = value;
