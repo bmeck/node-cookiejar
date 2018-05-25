@@ -78,7 +78,7 @@
 
             var key = pair[1];
             var value = pair[2];
-            if (!key || !value) {
+            if ( typeof key !== 'string' || key.length === 0 || typeof value !== 'string' ) {
                 console.warn("Unable to extract values from cookie header. Cookie: '"+str+"'");
                 return;
             }
