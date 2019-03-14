@@ -11,6 +11,8 @@ Simple robust cookie library
 
 class to determine matching qualities of a cookie
 
+* `CookieAccessInfo.All` - add a new frozen and empty object to the basic properties of the function with a key named "All", which allows fetching cookies with any access info
+
 ##### Properties
 
 * String domain - domain to match
