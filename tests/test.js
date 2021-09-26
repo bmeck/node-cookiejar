@@ -30,7 +30,7 @@ test_jar.setCookies(
  +":c=3;domain=test.com;path=/;expires=January 1, 1970");
 var cookies=test_jar.getCookies(CookieAccessInfo("test.com","/"))
 assert.equal(cookies.length, 2, "Expires on setCookies fail\n" + cookies.toString());
-assert.equal(cookies.toValueString(), 'a=1;b=2', "Cannot get value string of multiple cookies");
+assert.equal(cookies.toValueString(), 'a=1; b=2', "Cannot get value string of multiple cookies");
 
 cookies=test_jar.getCookies(CookieAccessInfo("www.test.com","/"))
 assert.equal(cookies.length, 2, "Wildcard domain fail\n" + cookies.toString());

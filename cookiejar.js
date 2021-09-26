@@ -243,7 +243,7 @@
                 matches.toValueString = function toValueString() {
                     return matches.map(function (c) {
                         return c.toValueString();
-                    }).join(';');
+                    }).join('; ');
                 };
                 return matches;
             };
