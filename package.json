@@ -1,12 +1,14 @@
 {
   "name": "cookiejar",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "author": {
     "name": "bradleymeck"
   },
   "main": "cookiejar.js",
   "description": "simple persistent cookiejar system",
-  "files": ["cookiejar.js"],
+  "files": [
+    "cookiejar.js"
+  ],
   "license": "MIT",
   "jshintConfig": {
     "node": true
