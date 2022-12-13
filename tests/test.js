@@ -69,7 +69,7 @@ assert.deepEqual(cookie, new Cookie("a=1;domain=.test.com;path=/"));
 
 // ensure cookies that are too long are not parsed to avoid any issues with DoS inputs
 var too_long_cookie = new Cookie( "foo=" + "blah".repeat( 10000 ) );
-assert.equal(too_long_cookie, undefined);
+assert.equal(too_long_cookie?.name, null);
 
 // Test request_path and request_domain
 test_jar2.setCookie(new Cookie("sub=4;path=/", "test.com"));
